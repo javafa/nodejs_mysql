@@ -6,24 +6,24 @@ var user = require("../user");
 exports.parse = function (request, response){
     var path = splitQuerystring(request.url);
     if(path == "/bbs"){
-        bbs.send(response);
+        parseMethod(bbs, request, response);
     } else if(path == "/user"){
-        user.send(response);
+        parseMethod(user, request, response);
     } else {
         error.send(response, 404);
     }
 };
 
 // http 메서드를 분석
-function parseMethod(request){
+function parseMethod(module, request, response){
     if(request.method == "POST"){
-
+        module.write();
     }else if(request.method == "GET"){
-
+        module.read();
     }else if(request.method == "PUT"){
-        
+        module.update();
     }else if(request.method == "DELETE"){
-        
+        module.delete();
     }
 }
 // http://localhost          /bbs?title=서초구
