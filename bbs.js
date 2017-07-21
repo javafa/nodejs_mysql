@@ -1,17 +1,21 @@
-exports.read = function(){
-
+var dao = require("./bbsDao");
+exports.read = function(response){
+    send(response, "READ");
 }
-exports.write = function(){
-
+exports.write = function(response){
+    console.log("in bbs write");
+    dao.insert(function(){
+        send(response, "WRITE Success!");
+    });
 }
-exports.update = function(){
-
+exports.update = function(response){
+    send(response, "UPDATE");
 }
-exports.delete = function(){
-
+exports.delete = function(response){
+    send(response, "DELTE");
 }
 
-exports.send = function(response){
+function send(response, flag){
     response.writeHead(200,{'Content-Type':'text/html'});
-    response.end("BBS");
+    response.end("BBS "+flag);
 }

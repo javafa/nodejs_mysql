@@ -4,6 +4,7 @@ var user = require("../user");
 // request 를 분석해서 요청 url에 대한 연결
 // url 을 분석
 exports.parse = function (request, response){
+    console.log("in router parse");
     var path = splitQuerystring(request.url);
     if(path == "/bbs"){
         parseMethod(bbs, request, response);
@@ -16,14 +17,15 @@ exports.parse = function (request, response){
 
 // http 메서드를 분석
 function parseMethod(module, request, response){
+    console.log("in router parseMethod");
     if(request.method == "POST"){
-        module.write();
+        module.write(response);
     }else if(request.method == "GET"){
-        module.read();
+        module.read(response);
     }else if(request.method == "PUT"){
-        module.update();
+        module.update(response);
     }else if(request.method == "DELETE"){
-        module.delete();
+        module.delete(response);
     }
 }
 // http://localhost          /bbs?title=서초구
