@@ -5,12 +5,12 @@ exports.select = function(){
     var query = "select * from "+tableName+" ";
 }
 
-exports.insert = function(callback){
+exports.insert = function(data, callback){
     console.log("in bbsDao insert");
-    var query = " insert into "+tableName+"(title,content,author,`date`)";
+    var query = " insert into "+tableName+"(title,content,author,date)";
         query = query + " VALUES ?";
     var values = [
-        ['제목','내용','작성자','2017-07-21']
+        [data.title,data.content,data.author,data.date]
     ];
     database.executeMulti(query, values, function(){
         callback();

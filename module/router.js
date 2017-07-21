@@ -19,7 +19,7 @@ exports.parse = function (request, response){
 function parseMethod(module, request, response){
     console.log("in router parseMethod");
     if(request.method == "POST"){
-        module.write(response);
+        module.write(request, response);
     }else if(request.method == "GET"){
         module.read(response);
     }else if(request.method == "PUT"){

@@ -2,10 +2,18 @@ var dao = require("./bbsDao");
 exports.read = function(response){
     send(response, "READ");
 }
-exports.write = function(response){
+exports.write = function(request, response){
     console.log("in bbs write");
-    dao.insert(function(){
-        send(response, "WRITE Success!");
+    // 데이터를 꺼내자
+    var postdata = "";
+    request.on('data', function(data){ // 데이터를 읽을 수 있을 때 호출
+        postdata = postdata + data;
+    });
+    request.on('end', function(){ // 데이터를 다 읽었을 때 호출
+        var dataObj = JSON.parse(postdata);
+        dao.insert(dataObj, function(){
+            send(response, "WRITE Success!");
+        });
     });
 }
 exports.update = function(response){
