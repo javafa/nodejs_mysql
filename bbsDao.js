@@ -16,8 +16,18 @@ exports.insert = function(data, callback){
     });
 }
 
-exports.update = function(){
-    var query = "update "+tableName+" ";
+exports.update = function(data, callback){
+    var query =   " update " + tableName
+                + " set title   =? , "
+                + "     content =? , "
+                + "     author  =? , "
+                + "     date    =?   "
+                + " where id=?";
+    var now = new Date().toLocaleDateString();
+    var values = [data.title, data.content, data.author, now, data.id];
+    database.execute(query, values, function(error){
+        callback(error);
+    });
 }
 
 exports.delete = function(){

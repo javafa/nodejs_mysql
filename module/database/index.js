@@ -22,12 +22,12 @@ exports.executeQuery = function(query, callback){
 }
 
 // 쿼리를 실행만 하는 함수
-exports.execute = function(query, callback){
+exports.execute = function(query, values, callback){
 	var con = mysql.createConnection(conInfo);
 	con.connect();
-	con.query(query, function(err, result){ // 데이터베이스에 쿼리 실행
+	con.query(query, values, function(err, result){ // 데이터베이스에 쿼리 실행
 		if(err){
-			// 에러처리
+			callback(err);
 		}else{
 			callback();
 		}
