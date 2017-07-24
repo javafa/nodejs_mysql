@@ -38,7 +38,7 @@ exports.update = function(request, response){
         // }
         dao.update(dataObj, function(err){
             if(err){
-                error.send(response, 500);
+                error.send(response, 500, err);
             }else{
                 send(response, '{"result":"ok"}');
             }

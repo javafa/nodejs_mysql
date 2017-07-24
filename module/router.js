@@ -7,6 +7,7 @@ exports.parse = function (request, response){
     console.log("in router parse");
     var path = splitQuerystring(request.url);
     if(path == "/bbs"){
+        //---> 주소로 요청된 모듈.js 로 보낸다. 요청주소가 /bbs 라면 bbs.js
         parseMethod(bbs, request, response);
     } else if(path == "/user"){
         parseMethod(user, request, response);
@@ -16,6 +17,7 @@ exports.parse = function (request, response){
 };
 
 // http 메서드를 분석
+//---> 각 모듈별 method 분기처리
 function parseMethod(module, request, response){
     console.log("in router parseMethod");
     if(request.method == "POST"){
