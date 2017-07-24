@@ -1,10 +1,24 @@
 var dao = require("./bbsDao");
 var error = require("./error");
-exports.read = function(response){
-    dao.select(function(data){ // dao를 통해 db를 읽고난 후 결과셋을 처리하는 코드
-        var jsonString = JSON.stringify(data);
-        send(response, jsonString);
-    });
+var querystring = require("querystring");
+
+exports.read = function(qs, response){
+    if(qs == ""){
+        dao.select(function(data){ // dao를 통해 db를 읽고난 후 결과셋을 처리하는 코드
+            var jsonString = JSON.stringify(data);
+            send(response, jsonString);
+        });
+    }else{ // 검색을 위한 쿼리스트링이 있으면 쿼리스트링을 분해해서 처리한다.
+        var parsedQs = querystring.parse(qs, '&', '=');
+        // parsedQs = {
+        //     title : "제목",
+        //     author : "홍길동"
+        // }
+        dao.search(parsedQs, function(data){
+            var jsonString = JSON.stringify(data);
+            send(response, jsonString);
+        });
+    }
 }
 exports.write = function(request, response){
     console.log("in bbs write");
@@ -57,6 +71,6 @@ exports.delete = function(request, response){
 }
 
 function send(response, result){
-    response.writeHead(200,{'Content-Type':'application/json'});
+    response.writeHead(200,{'Content-Type':'application/json;charset=utf-8'});
     response.end(result);
 }
