@@ -1,6 +1,9 @@
 var dao = require("./bbsDao");
 exports.read = function(response){
-    send(response, "READ");
+    dao.select(function(data){ // dao를 통해 db를 읽고난 후 결과셋을 처리하는 코드
+        var jsonString = JSON.stringify(data);
+        send(response, jsonString);
+    });
 }
 exports.write = function(request, response){
     console.log("in bbs write");
@@ -12,7 +15,7 @@ exports.write = function(request, response){
     request.on('end', function(){ // 데이터를 다 읽었을 때 호출
         var dataObj = JSON.parse(postdata);
         dao.insert(dataObj, function(){
-            send(response, "WRITE Success!");
+            send(response, '{"result":"ok"}');
         });
     });
 }
@@ -23,7 +26,7 @@ exports.delete = function(response){
     send(response, "DELTE");
 }
 
-function send(response, flag){
-    response.writeHead(200,{'Content-Type':'text/html'});
-    response.end("BBS "+flag);
+function send(response, result){
+    response.writeHead(200,{'Content-Type':'application/json'});
+    response.end(result);
 }
