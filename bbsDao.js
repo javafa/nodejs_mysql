@@ -11,9 +11,7 @@ exports.insert = function(data, callback){
     var query = " insert into "+tableName+"(title,content,author,date)";
         query = query + " VALUES ?";
     var values = [data.title,data.content,data.author,data.date];
-    database.executeMulti(query, values, function(){
-        callback();
-    });
+    database.executeMulti(query, values, callback);
 }
 
 exports.update = function(data, callback){
@@ -30,6 +28,10 @@ exports.update = function(data, callback){
     });
 }
 
-exports.delete = function(){
-    var query = "delete from "+tableName+" ";
+exports.delete = function(data, callback){
+    var query = "delete from "+tableName+" where id = ?";
+    var values = [data.id];
+    database.execute(query, values, function(error){
+        callback(error);
+    });
 }

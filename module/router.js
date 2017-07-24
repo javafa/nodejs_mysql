@@ -27,7 +27,7 @@ function parseMethod(module, request, response){
     }else if(request.method == "PUT"){
         module.update(request, response);
     }else if(request.method == "DELETE"){
-        module.delete(response);
+        module.delete(request, response);
     }
 }
 // http://localhost          /bbs?title=서초구

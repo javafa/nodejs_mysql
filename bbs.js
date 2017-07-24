@@ -29,13 +29,6 @@ exports.update = function(request, response){
     });
     request.on('end', function(){ // 데이터를 다 읽었을 때 호출
         var dataObj = JSON.parse(postdata);
-        // dataObj = {
-        //     id : 10,
-        //     title : "수정된 제목",
-        //     content : "수정된 내용 내용 \n 내용내용내ㅛㅇㅇ",
-        //     author : "펀치넬로",
-        //     date : "2017-07-24"
-        // }
         dao.update(dataObj, function(err){
             if(err){
                 error.send(response, 500, err);
@@ -45,8 +38,22 @@ exports.update = function(request, response){
         });
     });
 }
-exports.delete = function(response){
-    send(response, "DELTE");
+exports.delete = function(request, response){
+    // 요청한 데이터를 담을 변수를 선언
+    var postdata = "";
+    request.on('data', function(data){ // 데이터가 버퍼에 가득차면 자동으로 호출
+        postdata = postdata + data;
+    });
+    request.on('end', function(){ // 데이터를 다 읽었을 때 호출
+        var dataObj = JSON.parse(postdata);
+        dao.delete(dataObj, function(err){
+            if(err){
+                error.send(response, 500, err);
+            }else{
+                send(response, '{"result":"ok"}');
+            }
+        });
+    });
 }
 
 function send(response, result){
