@@ -12,6 +12,22 @@ exports.executeQuery = function(query, callback){
 	var con = mysql.createConnection(conInfo);
 	con.connect();
 	con.query(query, function(err, items, fields){ // 데이터베이스에 쿼리 실행
+		console.log(fields);
+		if(err){
+			console.log(err);
+		}else{
+			callback(items);
+		}
+		this.end();  // mysql 연결 해제
+	});
+}
+
+// 검색 조건을 받아서 처리하는 함수
+exports.executeQueryValues = function(query, values, callback){
+	var con = mysql.createConnection(conInfo);
+	con.connect();
+	con.query(query, values, function(err, items, fields){ // 데이터베이스에 쿼리 실행
+		console.log(fields);
 		if(err){
 			console.log(err);
 		}else{
