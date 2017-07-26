@@ -7,8 +7,8 @@ exports.select = function(callback){
 }
 
 exports.search = function(qs, callback){
-    var query = "select * from "+tableName+" where title like '%?%' ";
-    var values = [qs.title];
+    var query = "select * from "+tableName+" where title like ? ";
+    var values = ["%"+qs.title+"%"];
     console.log(query);
     database.executeQueryValues(query, values, callback);
 }
